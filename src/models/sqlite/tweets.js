@@ -4,7 +4,11 @@ const prisma = new PrismaClient()
 
 export class TweetModel {
   static async getAll () {
-    const tweets = await prisma.tweet.findMany()
+    const tweets = await prisma.tweet.findMany({
+      include: {
+        user: true
+      }
+    })
     return tweets
   }
 
@@ -14,7 +18,8 @@ export class TweetModel {
         userId
       },
       include: {
-        user: true
+        user: true,
+        comments: true
       }
     })
   }

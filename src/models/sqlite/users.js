@@ -7,6 +7,11 @@ export class UserModel {
     return await prisma.user.findFirst({
       where: {
         id
+      },
+      include: {
+        tweets: true,
+        followedBy: true,
+        following: true
       }
     })
   }

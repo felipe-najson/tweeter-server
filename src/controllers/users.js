@@ -4,10 +4,11 @@ import { validateUser } from '../schemas/user.js'
 export class UserController {
   static async getById (req, res) {
     const { id } = req.params
-    const users = await UserModel.getById(id)
+    const user = await UserModel.getById(id)
 
-    if (users.length !== 0) return res.json(users)
-    res.status(404).json({ message: 'Users not found for this user' })
+    if (!user || user.length === 0) { res.status(404).json({ message: 'User not found' }) }
+
+    return res.json(user)
   }
 
   static async create (req, res) {
