@@ -8,8 +8,7 @@ const tweetSchema = z.object({
     })
     .max(280)
     .min(1),
-  userId: z.string(),
-  likes: z.number().default(0)
+  userId: z.string()
 })
 
 export function validateTweet (input) {
