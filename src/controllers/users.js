@@ -6,7 +6,7 @@ export class UserController {
     const { id } = req.params
     const user = await UserModel.getById(id)
 
-    if (!user || user.length === 0) { res.status(404).json({ message: 'User not found' }) }
+    if (!user || user.length === 0) { return res.status(404).json({ message: 'User not found' }) }
 
     return res.json(user)
   }

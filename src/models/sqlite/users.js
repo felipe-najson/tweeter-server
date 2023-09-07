@@ -4,16 +4,20 @@ const prisma = new PrismaClient()
 
 export class UserModel {
   static async getById (id) {
-    return await prisma.user.findFirst({
-      where: {
-        id
-      },
-      include: {
-        tweets: true,
-        followedBy: true,
-        following: true
-      }
-    })
+    try {
+      return await prisma.user.findFirst({
+        where: {
+          id
+        },
+        include: {
+          tweets: true,
+          followedBy: true,
+          following: true
+        }
+      })
+    } catch {
+      return null
+    }
   }
 
   static async create (user) {

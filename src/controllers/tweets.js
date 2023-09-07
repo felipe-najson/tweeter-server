@@ -3,7 +3,9 @@ import { validateTweet } from '../schemas/tweets.js'
 
 export class TweetController {
   static async getAll (_req, res) {
-    const tweets = await TweetModel.getAll()
+    const tweets = await (await TweetModel.getAll()).sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt)
+    })
     res.json(tweets)
   }
 
