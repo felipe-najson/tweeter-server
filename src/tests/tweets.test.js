@@ -33,3 +33,18 @@ describe('POST /tweets', () => {
   })
 }
 )
+
+describe('GET /tweet/:id', () => {
+  test('should return 200 OK', async () => {
+    const response = await request(app).get('/tweets/1').send()
+    expect(response.status).toBe(200)
+  })
+})
+
+describe('DELETE /tweet/:id', () => {
+  test('should return 200 ok and the removed tweet', async () => {
+    const response = await request(app).delete('/tweets/1').send()
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toBe(Object)
+  })
+})

@@ -8,8 +8,7 @@ const tweetSchema = z.object({
     })
     .max(280)
     .min(1),
-  date: z.string().default(() => new Date()),
-  userId: z.string().min(3).max(20),
+  userId: z.string(),
   likes: z.number().default(0)
 })
 

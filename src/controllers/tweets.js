@@ -1,4 +1,4 @@
-import { TweetModel } from '../models/database/tweets.js'
+import { TweetModel } from '../models/sqlite/tweets.js'
 import { validateTweet } from '../schemas/tweets.js'
 
 export class TweetController {

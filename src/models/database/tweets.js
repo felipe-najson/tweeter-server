@@ -9,6 +9,7 @@ const tweetSchema = new mongoose.Schema({
   },
   date: {
     type: String,
+    default: new Date().toISOString(),
     required: true
   },
   userId: {
