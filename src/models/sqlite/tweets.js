@@ -6,7 +6,12 @@ export class TweetModel {
   static async getAll () {
     const tweets = await prisma.tweet.findMany({
       include: {
-        user: true
+        user: true,
+        comments: {
+          include: {
+            user: true
+          }
+        }
       }
     })
     return tweets
