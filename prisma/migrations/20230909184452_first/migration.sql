@@ -26,6 +26,7 @@ CREATE TABLE "User" (
     "username" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "birthDate" DATETIME NOT NULL,
     "description" TEXT NOT NULL,
     "image" TEXT NOT NULL,

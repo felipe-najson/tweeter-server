@@ -20,6 +20,18 @@ export class UserModel {
     }
   }
 
+  static async getByUsername (username) {
+    try {
+      return await prisma.user.findFirst({
+        where: {
+          username
+        }
+      })
+    } catch {
+      return null
+    }
+  }
+
   static async create (user) {
     return await prisma.user.create({
       data: {
