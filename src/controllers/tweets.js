@@ -1,4 +1,5 @@
 import { TweetModel } from '../models/sqlite/tweets.js'
+import { validateLike } from '../schemas/like.js'
 import { validateTweet } from '../schemas/tweets.js'
 
 export class TweetController {
@@ -13,8 +14,8 @@ export class TweetController {
     const { id } = req.params
     const tweets = await TweetModel.getById(id)
 
-    if (tweets.length !== 0) return res.json(tweets)
-    res.status(404).json({ message: 'Tweets not found for this user' })
+    if (tweets && tweets.length !== 0) return res.json(tweets)
+    res.status(404).json({ message: 'Invalid tweet id' })
   }
 
   static async create (req, res) {
@@ -33,5 +34,21 @@ export class TweetController {
 
     if (deletedTweet) return res.json(deletedTweet)
     res.status(404).json({ message: 'Tweet not found' })
+  }
+
+  static async addLike (req, res) {
+    const result = validateLike(req.body)
+    if (!result.success) { return res.status(400).json({ error: JSON.parse(result.error.message) }) }
+
+    const tweet = await TweetModel.getById(result.data.tweetId)
+    if (!tweet || tweet.length === 0) { return res.status(404).json({ message: 'Tweet not found' }) }
+
+    if (result.data.isLiked) {
+      const updatedTweet = await TweetModel.removeLike(result.data)
+      return res.json(updatedTweet)
+    }
+
+    const updatedTweet = await TweetModel.addLike(result.data)
+    res.json(updatedTweet)
   }
 }

@@ -11,20 +11,22 @@ export class TweetModel {
           include: {
             user: true
           }
-        }
+        },
+        likes: true
       }
     })
     return tweets
   }
 
-  static async getById (userId) {
+  static async getById (id) {
     return await prisma.tweet.findFirst({
       where: {
-        userId
+        id
       },
       include: {
         user: true,
-        comments: true
+        comments: true,
+        likes: true
       }
     })
   }
@@ -37,6 +39,41 @@ export class TweetModel {
     })
   }
 
+  static async addLike (like) {
+    return await prisma.tweet.update({
+      where: {
+        id: like.tweetId
+      },
+      data: {
+        likes: {
+          connect: {
+            id: like.userId
+          }
+        }
+      }
+    })
+  }
+
+  static async removeLike (like) {
+    return await prisma.tweet.update({
+      where: {
+        id: like.tweetId
+      },
+      data: {
+        likes: {
+          disconnect: {
+            id: like.userId
+          }
+        }
+      }
+    })
+  }
+
   static async delete (id) {
+    return await prisma.tweet.delete({
+      where: {
+        id
+      }
+    })
   }
 }
