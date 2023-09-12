@@ -48,4 +48,60 @@ export class UserModel {
       }
     })
   }
+
+  static async followUser (id, userFollowingId) {
+    await prisma.user.update({
+      where: {
+        id: userFollowingId
+      },
+      data: {
+        followedBy: {
+          connect: {
+            id
+          }
+        }
+      }
+    })
+
+    return await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        following: {
+          connect: {
+            id: userFollowingId
+          }
+        }
+      }
+    })
+  }
+
+  static async unfollowUser (id, userFollowingId) {
+    await prisma.user.update({
+      where: {
+        id: userFollowingId
+      },
+      data: {
+        followedBy: {
+          disconnect: {
+            id
+          }
+        }
+      }
+    })
+
+    return await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        following: {
+          disconnect: {
+            id: userFollowingId
+          }
+        }
+      }
+    })
+  }
 }
