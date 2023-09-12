@@ -13,7 +13,7 @@ export class AuthController {
     const passwordMatch = await compare(password, user.password)
     if (!passwordMatch) return res.status(400).json({ message: 'Invalid password' })
 
-    const token = signToken(user)
+    const token = signToken({ id: user.id, username: user.username })
     res.json({ token })
   }
 
