@@ -2,10 +2,8 @@ import { TweetModel } from '../models/sqlite/tweets.js'
 import { validateLike, validateBookmark, validateRetweet } from '../schemas/actions.js'
 import { validateTweet } from '../schemas/tweets.js'
 export class TweetController {
-  static async getAll (_req, res) {
-    const tweets = await (await TweetModel.getAll()).sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt)
-    })
+  static async get (req, res) {
+    const tweets = await TweetModel.getAll(req.userId, req.query)
     res.json(tweets)
   }
 

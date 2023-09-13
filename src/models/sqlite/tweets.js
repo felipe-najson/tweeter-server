@@ -3,8 +3,65 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export class TweetModel {
-  static async getAll () {
-    const tweets = await prisma.tweet.findMany({
+  static async getAll (userId, query) {
+    const { bookmarked, following } = query
+
+    return await prisma.tweet.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      where: {
+        ...(bookmarked
+          ? {
+              bookmarks: {
+                some: {
+                  id: userId
+                }
+              }
+            }
+          : {}),
+        ...(following
+          ? {
+              OR: [{
+                user: {
+                  followedBy: {
+                    some: {
+                      id: userId
+                    }
+                  }
+                }
+              },
+              { user: { id: userId } }]
+            }
+          : {})
+      },
+      include: {
+        user: true,
+        comments: {
+          include: {
+            user: true
+          }
+        },
+        likes: true,
+        bookmarks: true,
+        retweets: true
+      }
+
+    })
+  }
+
+  static async getBookmarked (userId) {
+    return await prisma.tweet.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      where: {
+        bookmarks: {
+          some: {
+            id: userId
+          }
+        }
+      },
       include: {
         user: true,
         comments: {
@@ -17,7 +74,6 @@ export class TweetModel {
         retweets: true
       }
     })
-    return tweets
   }
 
   static async getById (id) {

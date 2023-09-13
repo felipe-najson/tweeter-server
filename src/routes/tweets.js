@@ -4,7 +4,7 @@ import checkAuth from '../middlewares/auth.js'
 
 export const tweetsRouter = Router()
 
-tweetsRouter.get('/', checkAuth, TweetController.getAll)
+tweetsRouter.get('/', checkAuth, TweetController.get)
 tweetsRouter.get('/:id', checkAuth, TweetController.getById)
 tweetsRouter.post('/', checkAuth, TweetController.create)
 tweetsRouter.put('/like', checkAuth, TweetController.like)
