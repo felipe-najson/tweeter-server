@@ -12,7 +12,9 @@ export class TweetModel {
             user: true
           }
         },
-        likes: true
+        likes: true,
+        bookmarks: true,
+        retweets: true
       }
     })
     return tweets
@@ -35,6 +37,14 @@ export class TweetModel {
     return await prisma.tweet.create({
       data: {
         ...tweet
+      }
+    })
+  }
+
+  static async delete (id) {
+    return await prisma.tweet.delete({
+      where: {
+        id
       }
     })
   }
@@ -69,10 +79,62 @@ export class TweetModel {
     })
   }
 
-  static async delete (id) {
-    return await prisma.tweet.delete({
+  static async bookmarkTweet (bookmark) {
+    return await prisma.tweet.update({
       where: {
-        id
+        id: bookmark.tweetId
+      },
+      data: {
+        bookmarks: {
+          connect: {
+            id: bookmark.userId
+          }
+        }
+      }
+    })
+  }
+
+  static async removeBookmark (bookmark) {
+    return prisma.tweet.update({
+      where: {
+        id: bookmark.tweetId
+      },
+      data: {
+        bookmarks: {
+          disconnect: {
+            id: bookmark.userId
+          }
+        }
+      }
+    })
+  }
+
+  static async retweet (retweet) {
+    return await prisma.tweet.update({
+      where: {
+        id: retweet.tweetId
+      },
+      data: {
+        retweets: {
+          connect: {
+            id: retweet.userId
+          }
+        }
+      }
+    })
+  }
+
+  static async removeRetweet (retweet) {
+    return await prisma.tweet.update({
+      where: {
+        id: retweet.tweetId
+      },
+      data: {
+        retweets: {
+          disconnect: {
+            id: retweet.userId
+          }
+        }
       }
     })
   }

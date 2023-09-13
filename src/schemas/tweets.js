@@ -7,8 +7,7 @@ const tweetSchema = z.object({
       required_error: 'Tweet title is required.'
     })
     .max(280)
-    .min(1),
-  userId: z.string()
+    .min(1)
 })
 
 export function validateTweet (input) {

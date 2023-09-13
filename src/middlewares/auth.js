@@ -6,7 +6,7 @@ const checkAuth = async (req, res, next) => {
 
   try {
     const user = verifyToken(token)
-    req.user = user
+    req.userId = user.id
     next()
   } catch (err) {
     res.status(401).json({ message: 'Unauthorized' })

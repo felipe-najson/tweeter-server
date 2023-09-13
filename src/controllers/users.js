@@ -1,5 +1,5 @@
 import { UserModel } from '../models/sqlite/users.js'
-import { validateFollow } from '../schemas/follow.js'
+import { validateFollow } from '../schemas/actions.js'
 
 export class UserController {
   static async getById (req, res) {
@@ -12,12 +12,9 @@ export class UserController {
   }
 
   static async followUser (req, res) {
+    const id = req.userId
     const result = validateFollow(req.body)
     if (!result.success) return res.status(400).json({ error: JSON.parse(result.error.message) })
-
-    const { id } = req.params
-    const user = await UserModel.getById(id)
-    if (!user || user.length === 0) { return res.status(404).json({ message: 'User not found' }) }
 
     const userFollowing = await UserModel.getById(result.data.userFollowingId)
     if (!userFollowing || userFollowing.length === 0) { return res.status(404).json({ message: 'Following user not found' }) }
