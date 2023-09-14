@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export class CommentModel {
+export default class CommentModel {
   static async getAll (tweetId) {
     const tweets = await prisma.tweet.findMany({
       where: {

@@ -1,9 +1,16 @@
 import { Router } from 'express'
-import { CommentsController } from '../controllers/comments.js'
 import checkAuth from '../middlewares/auth.js'
+import CommentsController from '../controllers/comments.js'
 
-export const commentsRouter = Router()
+const createCommentsRouter = (commentsModel) => {
+  const commentsRouter = Router()
+  const commentsController = new CommentsController(commentsModel)
 
-commentsRouter.get('/:id', checkAuth, CommentsController.getByPostId)
-commentsRouter.post('/', checkAuth, CommentsController.create)
-commentsRouter.delete('/:id', checkAuth, CommentsController.delete)
+  commentsRouter.get('/:id', checkAuth, commentsController.getByPostId)
+  commentsRouter.post('/', checkAuth, commentsController.create)
+  commentsRouter.delete('/:id', checkAuth, commentsController.delete)
+
+  return commentsRouter
+}
+
+export default createCommentsRouter

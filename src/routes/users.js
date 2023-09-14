@@ -1,8 +1,15 @@
 import { Router } from 'express'
-import { UserController } from '../controllers/users.js'
 import checkAuth from '../middlewares/auth.js'
+import UserController from '../controllers/users.js'
 
-export const usersRouter = Router()
+const createUserRouter = (userModel) => {
+  const usersRouter = Router()
+  const userController = new UserController(userModel)
 
-usersRouter.get('/:id', checkAuth, UserController.getById)
-usersRouter.put('/follow', checkAuth, UserController.followUser)
+  usersRouter.get('/:id', checkAuth, userController.getById)
+  usersRouter.put('/follow', checkAuth, userController.followUser)
+
+  return usersRouter
+}
+
+export default createUserRouter

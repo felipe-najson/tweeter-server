@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export class UserModel {
+export default class UserModel {
   static async getById (id) {
     try {
       return await prisma.user.findFirst({

@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export class TweetModel {
+export default class TweetModel {
   static async getAll (userId, query) {
     const { bookmarked, following } = query
 

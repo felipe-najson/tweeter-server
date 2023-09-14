@@ -1,7 +1,14 @@
 import { Router } from 'express'
-import { AuthController } from '../controllers/auth.js'
+import AuthController from '../controllers/auth.js'
 
-export const authRouter = Router()
+const createAuthRouter = (userModel) => {
+  const authRouter = Router()
+  const authController = new AuthController(userModel)
 
-authRouter.post('/login', AuthController.login)
-authRouter.post('/register', AuthController.register)
+  authRouter.post('/login', authController.login)
+  authRouter.post('/register', authController.register)
+
+  return authRouter
+}
+
+export default createAuthRouter

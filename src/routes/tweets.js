@@ -1,12 +1,19 @@
 import { Router } from 'express'
-import { TweetController } from '../controllers/tweets.js'
+import TweetController from '../controllers/tweets.js'
 import checkAuth from '../middlewares/auth.js'
 
-export const tweetsRouter = Router()
+const createTweetRouter = (tweetModel) => {
+  const tweetsRouter = Router()
+  const tweetController = new TweetController(tweetModel)
 
-tweetsRouter.get('/', checkAuth, TweetController.get)
-tweetsRouter.get('/:id', checkAuth, TweetController.getById)
-tweetsRouter.post('/', checkAuth, TweetController.create)
-tweetsRouter.put('/like', checkAuth, TweetController.like)
-tweetsRouter.put('/bookmark', checkAuth, TweetController.bookmark)
-tweetsRouter.put('/retweet', checkAuth, TweetController.retweet)
+  tweetsRouter.get('/', checkAuth, tweetController.get)
+  tweetsRouter.get('/:id', checkAuth, tweetController.getById)
+  tweetsRouter.post('/', checkAuth, tweetController.create)
+  tweetsRouter.put('/like', checkAuth, tweetController.like)
+  tweetsRouter.put('/bookmark', checkAuth, tweetController.bookmark)
+  tweetsRouter.put('/retweet', checkAuth, tweetController.retweet)
+
+  return tweetsRouter
+}
+
+export default createTweetRouter
