@@ -1,15 +1,17 @@
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
-
+const RESULTS_PER_PAGE = 3
 export default class TweetModel {
   static async getAll (userId, query) {
-    const { bookmarked, following } = query
+    const { bookmarked, following, page } = query
 
-    return await prisma.tweet.findMany({
+    const results = await prisma.tweet.findMany({
       orderBy: {
         createdAt: 'desc'
       },
+      take: RESULTS_PER_PAGE,
+      skip: RESULTS_PER_PAGE * (page - 1),
       where: {
         ...(bookmarked
           ? {
@@ -48,6 +50,12 @@ export default class TweetModel {
       }
 
     })
+
+    return {
+      results,
+      next: results.length >= 1 ? Number(page) + 1 : null,
+      count: results.length
+    }
   }
 
   static async getBookmarked (userId) {

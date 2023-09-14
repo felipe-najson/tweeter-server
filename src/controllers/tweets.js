@@ -6,6 +6,8 @@ export default class TweetController {
   }
 
   get = async (req, res) => {
+    if (!req.query.page) return res.status(400).json({ message: 'Missing page query parameter' })
+
     const tweets = await this.tweetModel.getAll(req.userId, req.query)
     res.json(tweets)
   }
