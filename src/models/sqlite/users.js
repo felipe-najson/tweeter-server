@@ -4,8 +4,12 @@ const prisma = new PrismaClient()
 
 export default class UserModel {
   static async getAll () {
+    const usersCount = await prisma.user.count()
+    const skip = Math.floor(Math.random() * usersCount)
+
     try {
       return await prisma.user.findMany({
+        skip,
         include: {
           followedBy: true,
           following: true
