@@ -5,6 +5,11 @@ export default class UserController {
     this.userModel = userModel
   }
 
+  get = async (_req, res) => {
+    const users = await this.userModel.getAll()
+    res.json(users)
+  }
+
   getById = async (req, res) => {
     const { id } = req.params
     const user = await this.userModel.getById(id)

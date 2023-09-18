@@ -3,6 +3,19 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default class UserModel {
+  static async getAll () {
+    try {
+      return await prisma.user.findMany({
+        include: {
+          followedBy: true,
+          following: true
+        }
+      })
+    } catch {
+      return null
+    }
+  }
+
   static async getById (id) {
     try {
       return await prisma.user.findFirst({
@@ -10,7 +23,16 @@ export default class UserModel {
           id
         },
         include: {
-          tweets: true,
+          tweets: {
+            include: {
+              user: true,
+              comments: {
+                include: {
+                  user: true
+                }
+              }
+            }
+          },
           followedBy: true,
           following: true
         }

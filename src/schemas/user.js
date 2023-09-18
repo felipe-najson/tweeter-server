@@ -7,7 +7,8 @@ const userSchema = z.object({
   password: z.string().min(8).max(20),
   birthDate: z.string(),
   description: z.string().max(280).default(''),
-  image: z.string().url().default('https://randomuser.me/api/portraits/men/30.jpg')
+  image: z.string().url().default('https://randomuser.me/api/portraits/men/30.jpg'),
+  backgroundImage: z.string().url().default('https://randomuser.me/api/portraits/men/30.jpg')
 })
 
 export function validateUser (input) {

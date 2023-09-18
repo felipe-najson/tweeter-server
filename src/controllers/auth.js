@@ -33,4 +33,13 @@ export default class AuthController {
     const newUser = await this.userModel.create({ ...result.data, password: hashedPassword })
     res.status(201).json(newUser)
   }
+
+  getAuthenticatedUser = async (req, res) => {
+    const id = req.userId
+    const user = await this.userModel.getById(id)
+
+    if (!user || user.length === 0) { return res.status(404).json({ message: 'User not found' }) }
+
+    return res.json(user)
+  }
 }
