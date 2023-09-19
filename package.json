@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "eslint": "eslint . --ext .js"
+    "eslint": "eslint './**/*.{js,jsx}'"
   },
   "keywords": [],
   "author": "",
