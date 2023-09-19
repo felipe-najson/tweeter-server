@@ -1,10 +1,10 @@
 {
-  "name": "clase-3",
+  "name": "tweeter-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "eslint": "eslint './**/*.{js,jsx}'"
