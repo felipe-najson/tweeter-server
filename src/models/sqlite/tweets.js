@@ -13,7 +13,9 @@ export default class TweetModel {
       take: RESULTS_PER_PAGE,
       skip: RESULTS_PER_PAGE * (page - 1),
       where: {
-        ...(search ? { content: { contains: search } } : {}),
+        ...(search
+          ? { content: { contains: search, mode: 'insensitive' } }
+          : {}),
         ...(bookmarked
           ? {
               bookmarks: {
@@ -25,16 +27,18 @@ export default class TweetModel {
           : {}),
         ...(following
           ? {
-              OR: [{
-                user: {
-                  followedBy: {
-                    some: {
-                      id: userId
+              OR: [
+                {
+                  user: {
+                    followedBy: {
+                      some: {
+                        id: userId
+                      }
                     }
                   }
-                }
-              },
-              { user: { id: userId } }]
+                },
+                { user: { id: userId } }
+              ]
             }
           : {})
       },
@@ -49,7 +53,6 @@ export default class TweetModel {
         bookmarks: true,
         retweets: true
       }
-
     })
 
     return {

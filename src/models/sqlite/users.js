@@ -34,7 +34,11 @@ export default class UserModel {
                 include: {
                   user: true
                 }
-              }
+              },
+              likes: true,
+              retweets: true,
+              bookmarks: true
+
             }
           },
           followedBy: true,
